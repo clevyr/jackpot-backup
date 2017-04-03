@@ -1,2 +1,3 @@
-backups
+backups/*
+!backups/.*
 conf.sh
