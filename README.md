@@ -1,5 +1,6 @@
-# Depot - Backup Anything Locally and to S3
+# Depot
 --
+##  Backup Anything Locally and to S3
 
 This script will backup your files, dump any backups that are older than 7 days,
 and sync them with S3.
