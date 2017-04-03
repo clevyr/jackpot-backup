@@ -34,5 +34,5 @@ TOTAL_BACKUPS=`find ${CURRENT_PATH}/backups/. -name "*.tar.gz" | wc -l`
 # Sync the backups to AWS - only if there are backups in the dir
 # If there are no backups, that's a sign of a problem, so we don't want to sync
 if [ "$TOTAL_BACKUPS" -ne "0" ]; then
-  /usr/local/bin/aws s3 sync ${CURRENT_PATH}/backups/. s3://${S3_BUCKET}/ --delete --sse
+  eval "${AWS_PATH} s3 sync ${CURRENT_PATH}/backups/. s3://${S3_BUCKET}/ --delete --sse"
 fi
