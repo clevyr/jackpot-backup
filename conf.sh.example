@@ -1,0 +1,10 @@
+### EDIT THIS FILE
+
+AWS_PATH="/usr/local/bin/aws"
+
+S3_BACKUP="some-s3-bucket"
+
+custom_backup_cmds () {
+  # Something like...
+  # mysqldump -u foo -p bar db > $1/backup.sql
+}
