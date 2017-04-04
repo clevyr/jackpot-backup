@@ -4,9 +4,14 @@
 
 source ./conf.sh
 
+source ./lib/gnudate.sh
+
 set -e
 
-NOW=`date "+%m-%d-%Y_%H-%M-%S"`
+NOW=`gnudate "+%m-%d-%Y_%H-%M-%S"`
+CURRENT_MONTH=$(gnudate -d "$D" '+%m')
+CURRENT_YEAR=$(gnudate -d "$D" '+%Y')
+
 CURRENT_PATH=`dirname $0`
 
 # Create temp backup directory
@@ -32,9 +37,11 @@ rm -r /tmp/db_backups/${NOW}
 # Delete daily backups older than 7 days
 find ${CURRENT_PATH}/backups/daily/. -mtime +7 -name "*.tar.gz" -exec bash -c 'rm "$0"' {} \;
 
-# Delete monthly backups older than 7 months
+# Delete monthly backups older than 7 months, or 215 days
+find ${CURRENT_PATH}/backups/monthly/. -mtime +215 -name "*.tar.gz" -exec bash -c 'rm "$0"' {} \;
 
-# Delete annual backups older than 7 years
+# Delete annual backups older than 7 years, or 2557 days
+find ${CURRENT_PATH}/backups/annual/. -mtime +2557 -name "*.tar.gz" -exec bash -c 'rm "$0"' {} \;
 
 # Get list of all daily backup files
 TOTAL_DAILY_BACKUPS=`find ${CURRENT_PATH}/backups/daily/. -name "*.tar.gz" | wc -l`
