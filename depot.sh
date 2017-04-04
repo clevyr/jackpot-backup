@@ -19,21 +19,29 @@ custom_backup_cmds /tmp/db_backups/${NOW}
 
 ### END UPDATE
 
-# Tar everything in the new backup folder
-tar -C /tmp/db_backups -zcvf ./backups/${NOW}.tar.gz ${NOW}
+# Tar everything in the new backup folder, and store it in backups/daily
+tar -C /tmp/db_backups -zcvf ./backups/daily/${NOW}.tar.gz ${NOW}
+
+# If it's the first backup of the month, store it in backups/monthly
+
+# If it's the first backup of the year, store it in backups/annual
 
 # Delete temp backup directory
 rm -r /tmp/db_backups/${NOW}
 
-# Delete backups older than 7 days
-find ${CURRENT_PATH}/backups/. -mtime +7 -name "*.tar.gz" -exec bash -c 'rm "$0"' {} \;
+# Delete daily backups older than 7 days
+find ${CURRENT_PATH}/backups/daily/. -mtime +7 -name "*.tar.gz" -exec bash -c 'rm "$0"' {} \;
 
-# Get list of all backup files
-TOTAL_BACKUPS=`find ${CURRENT_PATH}/backups/. -name "*.tar.gz" | wc -l`
+# Delete monthly backups older than 7 months
 
-# Sync the backups to AWS - only if there are backups in the dir
-# If there are no backups, that's a sign of a problem, so we don't want to sync
-if  [ "$TOTAL_BACKUPS" -ne "0" ] &&
+# Delete annual backups older than 7 years
+
+# Get list of all daily backup files
+TOTAL_DAILY_BACKUPS=`find ${CURRENT_PATH}/backups/daily/. -name "*.tar.gz" | wc -l`
+
+# Sync the backups to AWS - only if there are daily backups in the dir
+# If there are no daily backups, that's a sign of a problem, so we don't want to sync
+if  [ "$TOTAL_DAILY_BACKUPS" -ne "0" ] &&
     [ -n "$AWS_PATH" ] &&
     [ -n "$S3_BUCKET" ];
 then

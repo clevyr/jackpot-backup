@@ -1,3 +1,2 @@
-backups/*
-!backups/.*
+backups/**/*.tar.gz
 conf.sh
