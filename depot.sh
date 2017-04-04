@@ -26,13 +26,16 @@ tar -C /tmp/db_backups -zcvf ./backups/${NOW}.tar.gz ${NOW}
 rm -r /tmp/db_backups/${NOW}
 
 # Delete backups older than 7 days
-find ${CURRENT_PATH}/backups/. -mtime +7 -name "*.sql" -exec bash -c 'rm "$0"' {} \;
+find ${CURRENT_PATH}/backups/. -mtime +7 -name "*.tar.gz" -exec bash -c 'rm "$0"' {} \;
 
 # Get list of all backup files
 TOTAL_BACKUPS=`find ${CURRENT_PATH}/backups/. -name "*.tar.gz" | wc -l`
 
 # Sync the backups to AWS - only if there are backups in the dir
 # If there are no backups, that's a sign of a problem, so we don't want to sync
-if [ "$TOTAL_BACKUPS" -ne "0" ]; then
-  eval "${AWS_PATH} s3 sync ${CURRENT_PATH}/backups/. s3://${S3_BUCKET}/ --delete --sse"
+if  [ "$TOTAL_BACKUPS" -ne "0" ] &&
+    [ -n "$AWS_PATH" ] &&
+    [ -n "$S3_BUCKET" ];
+then
+  ${AWS_PATH} s3 sync ${CURRENT_PATH}/backups/. s3://${S3_BUCKET} --delete --sse
 fi
