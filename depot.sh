@@ -4,14 +4,14 @@
 
 set -e
 
-NOW=`gnudate "+%m-%d-%Y_%H-%M-%S"`
-CURRENT_MONTH=`gnudate -d "$D" '+%m'`
-CURRENT_YEAR=`gnudate -d "$D" '+%Y'`
-
 CURRENT_PATH=`dirname $0`
 
 source $CURRENT_PATH/conf.sh
 source $CURRENT_PATH/lib/gnudate.sh
+
+NOW=`gnudate "+%m-%d-%Y_%H-%M-%S"`
+CURRENT_MONTH=`gnudate -d "$D" '+%m'`
+CURRENT_YEAR=`gnudate -d "$D" '+%Y'`
 
 # Create temp backup directory
 mkdir -p /tmp/db_backups/${NOW}
