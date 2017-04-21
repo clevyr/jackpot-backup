@@ -8,8 +8,8 @@ source ./lib/gnudate.sh
 set -e
 
 NOW=`gnudate "+%m-%d-%Y_%H-%M-%S"`
-CURRENT_MONTH=$(gnudate -d "$D" '+%m')
-CURRENT_YEAR=$(gnudate -d "$D" '+%Y')
+CURRENT_MONTH=`gnudate -d "$D" '+%m'`
+CURRENT_YEAR=`gnudate -d "$D" '+%Y'`
 
 CURRENT_PATH=`dirname $0`
 
@@ -27,15 +27,15 @@ custom_backup_cmds /tmp/db_backups/${NOW}
 tar -C /tmp/db_backups -zcvf ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${NOW}
 
 # If it's the first backup of the month, store it in backups/monthly
-MATCHING_MONTHLY_BACKUPS=`find ${CURRENT_PATH}/backups/monthly | grep "${CURRENT_MONTH}\-[0-9]\{1,2\}\-${CURRENT_YEAR}_.*\.tar\.gz" | wc -l`
-if  [ "$MATCHING_MONTHLY_BACKUPS" -eq "0" ];
+NUM_CURRENT_MONTHLY_BACKUPS=`find ${CURRENT_PATH}/backups/monthly | grep "${CURRENT_MONTH}\-[0-9]\{1,2\}\-${CURRENT_YEAR}_.*\.tar\.gz" | wc -l`
+if  [ "$NUM_CURRENT_MONTHLY_BACKUPS" -eq "0" ];
 then
   cp ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${CURRENT_PATH}/backups/monthly/${NOW}.tar.gz;
 fi
 
 # If it's the first backup of the year, store it in backups/yearly
-MATCHING_YEARLY_BACKUPS=`find ${CURRENT_PATH}/backups/yearly | grep "[0-9]\{1,2\}\-[0-9]\{1,2\}\-${CURRENT_YEAR}_.*\.tar\.gz" | wc -l`
-if  [ "$MATCHING_YEARLY_BACKUPS" -eq "0" ];
+NUM_CURRENT_YEARLY_BACKUPS=`find ${CURRENT_PATH}/backups/yearly | grep "[0-9]\{1,2\}\-[0-9]\{1,2\}\-${CURRENT_YEAR}_.*\.tar\.gz" | wc -l`
+if  [ "$NUM_CURRENT_YEARLY_BACKUPS" -eq "0" ];
 then
   cp ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${CURRENT_PATH}/backups/yearly/${NOW}.tar.gz;
 fi
