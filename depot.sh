@@ -33,11 +33,11 @@ then
   cp ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${CURRENT_PATH}/backups/monthly/${NOW}.tar.gz;
 fi
 
-# If it's the first backup of the year, store it in backups/annual
-MATCHING_YEARLY_BACKUPS=`find ${CURRENT_PATH}/backups/annual | grep "[0-9]\{1,2\}\-[0-9]\{1,2\}\-${CURRENT_YEAR}_.*\.tar\.gz" | wc -l`
+# If it's the first backup of the year, store it in backups/yearly
+MATCHING_YEARLY_BACKUPS=`find ${CURRENT_PATH}/backups/yearly | grep "[0-9]\{1,2\}\-[0-9]\{1,2\}\-${CURRENT_YEAR}_.*\.tar\.gz" | wc -l`
 if  [ "$MATCHING_YEARLY_BACKUPS" -eq "0" ];
 then
-  cp ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${CURRENT_PATH}/backups/annual/${NOW}.tar.gz;
+  cp ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${CURRENT_PATH}/backups/yearly/${NOW}.tar.gz;
 fi
 
 # Delete temp backup directory
@@ -49,8 +49,8 @@ find ${CURRENT_PATH}/backups/daily/. -mtime +7 -name "*.tar.gz" -exec bash -c 'r
 # Delete monthly backups older than 7 months, or 215 days
 find ${CURRENT_PATH}/backups/monthly/. -mtime +215 -name "*.tar.gz" -exec bash -c 'rm "$0"' {} \;
 
-# Delete annual backups older than 7 years, or 2557 days
-find ${CURRENT_PATH}/backups/annual/. -mtime +2557 -name "*.tar.gz" -exec bash -c 'rm "$0"' {} \;
+# Delete yearly backups older than 7 years, or 2557 days
+find ${CURRENT_PATH}/backups/yearly/. -mtime +2557 -name "*.tar.gz" -exec bash -c 'rm "$0"' {} \;
 
 # Get list of all daily backup files
 TOTAL_DAILY_BACKUPS=`find ${CURRENT_PATH}/backups/daily/. -name "*.tar.gz" | wc -l`
