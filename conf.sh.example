@@ -1,10 +1,33 @@
 ### EDIT THIS FILE
 
-AWS_PATH="/usr/local/bin/aws"
+#####################
+## REQUIRED CONFIG ##
+#####################
 
-S3_BACKUP="some-s3-bucket"
-
-custom_backup_cmds () {
+# backup()
+#
+# Perform all of your backup logic here, such as creating backup files. The
+# directory where you should place your files is set to the first parameter.
+#
+# @param $1 the directory where you should place your backup files
+backup () {
   # Something like...
   # mysqldump -u foo -p bar db > $1/backup.sql
 }
+
+#########################
+## END REQUIRED CONFIG ##
+#########################
+
+
+#####################
+## OPTIONAL CONFIG ##
+#####################
+
+# To backup to an AWS S3 Bucket, fillout ALL of these variables
+# BEGIN AWS CONFIG
+#
+AWS_PATH="/usr/local/bin/aws"   # Path to the `aws` command
+S3_BUCKET="some-s3-bucket"      # Name of S3 bucket
+#
+# BEGIN AWS CONFIG
