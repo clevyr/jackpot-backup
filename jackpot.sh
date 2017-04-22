@@ -12,7 +12,6 @@ trap onerror ERR
 
 source $CURRENT_PATH/conf.sh
 source $CURRENT_PATH/lib/gnudate.sh
-source $CURRENT_PATH/lib/function_exists.sh
 
 NOW=`gnudate "+%m-%d-%Y_%H-%M-%S"`
 CURRENT_MONTH=`gnudate -d "$D" '+%m'`
@@ -79,8 +78,7 @@ find ${CURRENT_PATH}/backups/yearly/. -mtime +2557 -name "*.tar.gz" -exec bash -
 log-success "Finished deleting outdated backups!"
 
 # Perform user-defined after_backup() function - if it exists
-AFTER_BACKUP_EXISTS=`function_exists "after_backup"`;
-if [ -n "$AFTER_BACKUP_EXISTS" ]; then
+if typeset -f after_backup > /dev/null; then
   log "Running after_backup function..."
   after_backup ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz
   log-success "Finished running after_backup function!"
