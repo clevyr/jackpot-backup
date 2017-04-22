@@ -18,8 +18,8 @@ mkdir -p /tmp/db_backups/${NOW}
 
 ### UPDATE LOGIC FOR THIS COMMAND IN ./conf.sh
 
-# Pass in backup directory to the user-defined backup function
-backup /tmp/db_backups/${NOW}
+# Pass in backup directory to the user-defined main_backup function
+main_backup /tmp/db_backups/${NOW}
 
 ### END UPDATE
 

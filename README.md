@@ -30,8 +30,8 @@ cp conf.sh.example conf.sh
 Here's what you need to edit in `conf.sh`:
 
 ```
-# REQUIRED - Edit the backup() Function:
-#   backup()
+# REQUIRED - Edit the main_backup() Function:
+#   main_backup()
 
 # OPTIONAL:
 #   To Add S3 Syncing, edit:
@@ -39,13 +39,13 @@ Here's what you need to edit in `conf.sh`:
 #     S3_BUCKET - the name of the bucket you are syncing with
 ```
 
-The `backup` function is where you will issue shell commands to create
+The `main_backup` function is where you will issue shell commands to create
 all your backup scripts. That function receives the right backup directory as an
 argument, and you can use it as `$1` - like so:
 
 ```
 # Example
-custom_backup_cmds () {
+main_backup () {
   mysqldump -u foo -p bar db > $1/backup.sql
 }
 ```
