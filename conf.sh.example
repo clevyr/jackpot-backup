@@ -4,12 +4,10 @@
 ## REQUIRED CONFIG ##
 #####################
 
-# main_backup()
+# Perform all of your backup logic here, such as creating backup files.
 #
-# Perform all of your backup logic here, such as creating backup files. The
-# directory where you should place your files is set to the first parameter.
-#
-# @param $1 the directory where you should place your backup files
+# @param    {string} $1 - The directory where you should place your backup files
+# @returns  {void}
 main_backup () {
   # Something like...
   # mysqldump -u foo -p bar db > $1/backup.sql
@@ -23,18 +21,16 @@ main_backup () {
 ## OPTIONAL CONFIG ##
 #####################
 
-# after_backup()
+# Perform any extra logic once your backup has been created.
 #
-# Perform any extra logic once your backup has been created. The first paramater
-# is the compressed backup file.
-#
-# @param $1 the zipped up backup file
+# @param    {file} $1 - the compressed backup file
+# @returns  {void}
 after_backup () {
   # Something like...
   # scp $1 new.server.com:~/backups
 }
 
-# To backup to an AWS S3 Bucket, fillout ALL of these variables
+# To backup to an AWS S3 Bucket, fill out ALL of these variables
 # BEGIN AWS CONFIG
 #
 AWS_PATH="/usr/local/bin/aws"   # Path to the `aws` command
