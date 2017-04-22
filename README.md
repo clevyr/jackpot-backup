@@ -30,21 +30,21 @@ cp conf.sh.example conf.sh
 Here's what you need to edit in `conf.sh`:
 
 ```
-# REQUIRED - Edit the main_backup() Function:
-#   main_backup()
+REQUIRED:
+  main_backup()
 
-# OPTIONAL:
-#   after_backup()
-#
-#   To Add S3 Syncing, edit:
-#     AWS_PATH  - the path to the aws command
-#     S3_BUCKET - the name of the bucket you are syncing with
+OPTIONAL:
+  after_backup()
+
+  To Add S3 Syncing, edit:
+    AWS_PATH  - the path to the aws command
+    S3_BUCKET - the name of the bucket you are syncing with
 ```
 
 ### main_backup
 The `main_backup` function is where you will issue shell commands to create
-all your backup scripts. That function receives the right backup directory as an
-argument, and you can use it as `$1` - like so:
+all your backup scripts. That function a directory as an
+parameter (`$1`) - and you should dump all of your files in there:
 
 ```
 # Example
@@ -53,11 +53,12 @@ main_backup () {
 }
 ```
 
-Anything in the `$1` directory will get zipped up into a single file, and that's
-what becomes your backup. Store database dumps, code, assets, anything you want!
+Anything in the `$1` directory will get compressed up into a single file, and that's
+what becomes your backup. Store database dumps, code, assets, anything you want
+in there!
 
 ### after_backup (optional)
-The `after_backup` function is where you will perform any extra logic once your
+The `after_backup` function is where you can perform any extra logic once your
 backup has been created. The first paramater is the compressed backup file.
 
 ```
@@ -83,4 +84,5 @@ day:
 ```
 
 MIT Licensed
+
 [Clevyr, Inc.](https://clevyr.com)
