@@ -1,6 +1,6 @@
-# Depot
+# Jackpot Backup
 
-Depot will backup all your files from the last:
+Jackpot will backup all your files from the last:
   * 7 days
   * 7 months (one backup each month)
   * 7 years (one backup each year)
@@ -11,7 +11,7 @@ And it will automatically remove old backups.
 
 ## Where does it store backups?
 
-Depot currently stores your files:
+Jackpot currently stores your files:
   * Locally
   * Remotely to S3 (optional)
   * *More coming soon*
@@ -53,9 +53,9 @@ main_backup () {
 Anything in the `$1` directory will get zipped up into a single file, and that's
 what becomes your backup. Store database dumps, code, assets, anything you want!
 
-## Running Depot
+## Running Jackpot
 ```
-./depot.sh
+./jackpot.sh
 ```
 
 [Clevyr, Inc.](https://clevyr.com)
