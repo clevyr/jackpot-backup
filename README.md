@@ -58,4 +58,15 @@ what becomes your backup. Store database dumps, code, assets, anything you want!
 ./jackpot.sh
 ```
 
+### In Production
+
+In production, you'll definitely want to set up jackpot as a cron job that runs every
+day:
+
+```
+# Every day at midnight
+0 0 * * * full/path/to/jackpot.sh
+```
+
+MIT Licensed
 [Clevyr, Inc.](https://clevyr.com)
