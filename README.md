@@ -1,6 +1,6 @@
 # Jackpot Backup
 
-Jackpot will backup all your files from the last:
+Jackpot will backup all of your files from the last:
   * 7 days
   * 7 months (one backup each month)
   * 7 years (one backup each year)
@@ -19,8 +19,8 @@ Jackpot currently stores your files:
 
 ## Prerequisites
 
-This library depends on the **GNU Date** command. This should be on most linux
-distributions by default. On Mac OSX, it is not - so you'll need to install the
+This library depends on the **GNU Date** command. This should exist on most linux
+distributions by default. On Mac OSX, doesn't - so you'll need to install the
 coreutils package to get it:
 
 ```
@@ -29,12 +29,16 @@ brew install coreutils
 # Now you can run `gdate`
 ```
 
+### For S3 Backup
+
 To sync to an AWS S3 bucket, you must have the `aws` cli tool installed.
 
 ## Getting Started
 
 ```
 cp conf.sh.example conf.sh
+
+# Now edit conf.sh
 ```
 
 Here's what you need to edit in `conf.sh`:
@@ -53,7 +57,7 @@ OPTIONAL:
 
 ### main_backup
 The `main_backup` function is where you will issue shell commands to create
-all your backup scripts. That function a directory as an
+all of your backup scripts. That function a directory as an
 parameter (`$1`) - and you should dump all of your files in there:
 
 ```
@@ -69,7 +73,7 @@ in there!
 
 ### after_backup (optional)
 The `after_backup` function is where you can perform any extra logic once your
-backup has been created. The first paramater is the compressed backup file.
+backup has been created. The first parameter is the compressed backup file.
 
 ```
 # Example
