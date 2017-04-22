@@ -19,6 +19,16 @@ main_backup () {
 ## END REQUIRED CONFIG ##
 #########################
 
+# after_backup()
+#
+# Perform any extra logic once your backup has been created. The first paramater
+# is the compressed backup file.
+#
+# @param $1 the zipped up backup file
+after_backup () {
+  # Something like...
+  # scp $1 new.server.com:~/backups
+}
 
 #####################
 ## OPTIONAL CONFIG ##
@@ -30,4 +40,4 @@ main_backup () {
 AWS_PATH="/usr/local/bin/aws"   # Path to the `aws` command
 S3_BUCKET="some-s3-bucket"      # Name of S3 bucket
 #
-# BEGIN AWS CONFIG
+# END AWS CONFIG

@@ -12,7 +12,7 @@ And it will automatically remove old backups.
 ## Where does it store backups?
 
 Jackpot currently stores your files:
-  * Locally
+  * Locally - in the **/backups** directory
   * Remotely to S3 (optional)
   * *More coming soon*
 
@@ -34,11 +34,14 @@ Here's what you need to edit in `conf.sh`:
 #   main_backup()
 
 # OPTIONAL:
+#   after_backup()
+#
 #   To Add S3 Syncing, edit:
 #     AWS_PATH  - the path to the aws command
 #     S3_BUCKET - the name of the bucket you are syncing with
 ```
 
+### main_backup
 The `main_backup` function is where you will issue shell commands to create
 all your backup scripts. That function receives the right backup directory as an
 argument, and you can use it as `$1` - like so:
@@ -52,6 +55,17 @@ main_backup () {
 
 Anything in the `$1` directory will get zipped up into a single file, and that's
 what becomes your backup. Store database dumps, code, assets, anything you want!
+
+### after_backup (optional)
+The `after_backup` function is where you will perform any extra logic once your
+backup has been created. The first paramater is the compressed backup file.
+
+```
+# Example
+after_backup () {
+  scp $1 new.server.com:~/backups
+}
+```
 
 ## Running Jackpot
 ```

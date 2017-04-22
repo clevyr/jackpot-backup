@@ -8,6 +8,7 @@ CURRENT_PATH=`dirname $0`
 
 source $CURRENT_PATH/conf.sh
 source $CURRENT_PATH/lib/gnudate.sh
+source $CURRENT_PATH/lib/function_exists.sh
 
 NOW=`gnudate "+%m-%d-%Y_%H-%M-%S"`
 CURRENT_MONTH=`gnudate -d "$D" '+%m'`
@@ -51,6 +52,12 @@ find ${CURRENT_PATH}/backups/monthly/. -mtime +215 -name "*.tar.gz" -exec bash -
 
 # Delete yearly backups older than 7 years, or 2557 days
 find ${CURRENT_PATH}/backups/yearly/. -mtime +2557 -name "*.tar.gz" -exec bash -c 'rm "$0"' {} \;
+
+# Perform user-defined after_backup() function - if it exists
+AFTER_BACKUP_EXISTS=`function_exists "after_backup"`;
+if [ -n "$AFTER_BACKUP_EXISTS" ]; then
+  after_backup ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz
+fi
 
 # Get list of all daily backup files
 TOTAL_DAILY_BACKUPS=`find ${CURRENT_PATH}/backups/daily/. -name "*.tar.gz" | wc -l`
