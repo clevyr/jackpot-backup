@@ -1,5 +1,3 @@
-source `dirname $0`/log.sh
-
 # Jackpot error handler. Prints out the stack trace and exits the program.
 # @param    {string} $? - Error code
 # @returns  {void}

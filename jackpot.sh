@@ -4,14 +4,15 @@
 
 CURRENT_PATH=`dirname $0`
 
-source $CURRENT_PATH/conf.sh
-source $CURRENT_PATH/lib/gnudate.sh
-source $CURRENT_PATH/lib/function_exists.sh
 source $CURRENT_PATH/lib/log.sh
 source $CURRENT_PATH/lib/onerror.sh
 
 # Call onerror function if a command exits with a non-zero status.
 trap onerror ERR
+
+source $CURRENT_PATH/conf.sh
+source $CURRENT_PATH/lib/gnudate.sh
+source $CURRENT_PATH/lib/function_exists.sh
 
 NOW=`gnudate "+%m-%d-%Y_%H-%M-%S"`
 CURRENT_MONTH=`gnudate -d "$D" '+%m'`
