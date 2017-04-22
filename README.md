@@ -19,6 +19,16 @@ Jackpot currently stores your files:
 
 ## Prerequisites
 
+This library depends on the **GNU Date** command. This should be on most linux
+distributions by default. On Mac OSX, it is not - so you'll need to install the
+coreutils package to get it:
+
+```
+brew install coreutils
+
+# Now you can run `gdate`
+```
+
 To sync to an AWS S3 bucket, you must have the `aws` cli tool installed.
 
 ## Getting Started
