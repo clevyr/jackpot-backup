@@ -18,8 +18,8 @@ Jackpot currently stores your files:
 
 ## Prerequisites
 
-This library depends on the **GNU Date** command. This should exist on most linux
-distributions by default. On Mac OSX, doesn't - so you'll need to install the
+This library depends on the **GNU Date** command. This exists on linux
+distributions by default. On Mac OSX, it doesn't - so you'll need to install the
 coreutils package to get it:
 
 ```
@@ -30,13 +30,15 @@ brew install coreutils
 
 ### For AWS S3 Backup
 
-To sync to an AWS S3 bucket, you must have the `aws` cli tool installed. [More
+To sync to an AWS S3 bucket, you must have the `aws` cli tool installed and
+configured with credentials to access the bucket. [More
 info here](https://aws.amazon.com/cli/).
 
 ### For Google Cloud Backup
 
 To sync to a Google Cloud bucket, you must have the `gcloud` and `gsutil` cli
-tools installed. [More info here](https://cloud.google.com/sdk/).
+tools installed and configured with credentials to access the bucket.
+[More info here](https://cloud.google.com/sdk/).
 
 ## Getting Started
 
@@ -59,13 +61,13 @@ OPTIONAL:
     S3_BUCKET - the name of the AWS S3 bucket with which you are syncing
 
   To Add Google Cloud Syncing, edit:
-    GOOGLE_CLOUD_BUCKET - the name of the Google Cloud bucket with which you are syncing
+    GOOGLE_CLOUD_BUCKET - the name of the Google Cloud Storage bucket with which you are syncing
 ```
 
 ### main_backup
 The `main_backup` function is where you will issue shell commands to create
-all of your backup scripts. That function a directory as an
-parameter (`$1`) - and you should dump all of your files in there:
+all of your backup scripts. This function gets passed the directory (`$1`) where
+you should dump all of your files:
 
 ```
 # Example
@@ -74,13 +76,15 @@ main_backup () {
 }
 ```
 
-Anything in the `$1` directory will get compressed up into a single file, and that's
-what becomes your backup. Store database dumps, code, assets, anything you want
+Anything in the `$1` directory will get compressed into a single `.tar.gz` file, and that
+becomes your backup. Store database dumps, code, assets, anything you want
 in there!
 
 ### after_backup (optional)
 The `after_backup` function is where you can perform any extra logic once your
-backup has been created. The first parameter is the compressed backup file.
+backup has been created - such as manually copying your new backup over to a
+mounted drive, or storing it in another location on the server.
+This function gets passed the compressed backup file (`$1`).
 
 ```
 # Example
@@ -96,8 +100,8 @@ after_backup () {
 
 ### In Production
 
-In production, you'll definitely want to set up jackpot as a cron job that runs every
-day:
+In production, you'll normally want to set up jackpot as a cron job that runs
+regularly:
 
 ```
 # Every day at midnight

@@ -33,13 +33,13 @@ after_backup () {
 # To backup to an AWS S3 Bucket, fill out the following variables
 # BEGIN AWS CONFIG
 #
-S3_BUCKET="some-s3-bucket"              # Name of S3 bucket
+S3_BUCKET="some-s3-bucket"  # Name of S3 bucket
 #
 # END AWS CONFIG
 
 # To backup to a Google Cloud bucket, fill out the following variables
 # BEGIN GOOGLE CLOUD CONFIG
 #
-GOOGLE_CLOUD_BUCKET="gs://mybucket"    # Name of Google Cloud bucket
+GOOGLE_CLOUD_BUCKET="some-google-cloud-storage-bucket"  # Name of Google Cloud bucket
 #
 # END GOOGLE CLOUD CONFIG
