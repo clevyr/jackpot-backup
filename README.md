@@ -13,8 +13,7 @@ And it will automatically remove old backups.
 
 Jackpot currently stores your files:
   * Locally - in the **/backups** directory
-  * Remotely to S3 (optional)
-  * *More coming soon*
+  * Remotely to S3 and/or Google Cloud (optional)
 
 
 ## Prerequisites
@@ -29,9 +28,15 @@ brew install coreutils
 # Now you can run `gdate`
 ```
 
-### For S3 Backup
+### For AWS S3 Backup
 
-To sync to an AWS S3 bucket, you must have the `aws` cli tool installed.
+To sync to an AWS S3 bucket, you must have the `aws` cli tool installed. [More
+info here](https://aws.amazon.com/cli/).
+
+### For Google Cloud Backup
+
+To sync to a Google Cloud bucket, you must have the `gcloud` and `gsutil` cli
+tools installed. [More info here](https://cloud.google.com/sdk/).
 
 ## Getting Started
 
@@ -50,9 +55,11 @@ REQUIRED:
 OPTIONAL:
   after_backup()
 
-  To Add S3 Syncing, edit:
-    AWS_PATH  - the path to the aws command
-    S3_BUCKET - the name of the bucket you are syncing with
+  To Add AWS S3 Syncing, edit:
+    S3_BUCKET - the name of the AWS S3 bucket with which you are syncing
+
+  To Add Google Cloud Syncing, edit:
+    GOOGLE_CLOUD_BUCKET - the name of the Google Cloud bucket with which you are syncing
 ```
 
 ### main_backup

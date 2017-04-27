@@ -32,12 +32,12 @@ log-success "Finished running main_backup function!"
 
 ### END UPDATE
 
-log "Compressing backup directory..."
+log "Creating daily backup..."
 
 # Tar everything in the new backup folder, and store it in backups/daily
 tar -C /tmp/db_backups -zcvf ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${NOW}
 
-log-success "Finished compressing backup directory!"
+log-success "Finished creating daily backup!"
 
 # If it's the first backup of the month, store it in backups/monthly
 NUM_CURRENT_MONTHLY_BACKUPS=`find ${CURRENT_PATH}/backups/monthly | grep "${CURRENT_MONTH}\-[0-9]\{1,2\}\-${CURRENT_YEAR}_.*\.tar\.gz" | wc -l`
@@ -89,17 +89,32 @@ fi
 # Get list of all daily backup files
 TOTAL_DAILY_BACKUPS=`find ${CURRENT_PATH}/backups/daily/. -name "*.tar.gz" | wc -l`
 
-# Sync the backups to AWS - only if there are daily backups in the dir
+# Sync the backups to remote sources - only if there are daily backups in the dir
 # If there are no daily backups, that's a sign of a problem, so we don't want to sync
-if  [ "$TOTAL_DAILY_BACKUPS" -ne "0" ] &&
-    [ -n "$AWS_PATH" ] &&
-    [ -n "$S3_BUCKET" ];
+if  [ "$TOTAL_DAILY_BACKUPS" -ne "0" ];
 then
-  log "Backing up to the AWS ${S3_BUCKET} S3 bucket..."
-  ${AWS_PATH} s3 sync ${CURRENT_PATH}/backups/. s3://${S3_BUCKET} --delete --sse
-  log-success "Done backing up to AWS S3!"
+
+  # Sync to S3 if the config is set
+  if [ -n "$S3_BUCKET" ]; then
+    log "Backing up to the AWS ${S3_BUCKET} S3 bucket..."
+    aws s3 sync ${CURRENT_PATH}/backups/. s3://${S3_BUCKET} --delete --sse
+    log-success "Done backing up to AWS S3!"
+  else
+    log "No configuration set to backup for AWS S3. Skipping..."
+  fi
+
+  # Sync to Google Cloud if the config is set
+  if [ -n "$GOOGLE_CLOUD_BUCKET" ]; then
+    log "Backing up to the Google Cloud ${GOOGLE_CLOUD_BUCKET} bucket..."
+    gsutil rsync -d -r ${CURRENT_PATH}/backups/. gs://${GOOGLE_CLOUD_BUCKET}
+    log-success "Done backing up to Google Cloud!"
+  else
+    log "No configuration set to backup for Google Cloud. Skipping..."
+  fi
 else
-  log "No configuration set to backup for AWS S3. Skipping..."
+  # No backups found - that's bad
+  log-error "ERROR: Zero backups found in backups/daily. This is a problem.
+  Aborting syncing with all remote services."
 fi
 
 log-success "Successfully Completed Jackpot Backup!"
