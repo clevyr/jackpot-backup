@@ -1,48 +1,34 @@
 # Jackpot Backup
 
-Jackpot will backup all of your files from the last:
+Jackpot backups all of your files from the last:
   * 7 days
   * 7 months (one backup each month)
   * 7 years (one backup each year)
 
-And it will automatically remove old backups.
-
 777? You hit the Jackpot!
 
-## Where does it store backups?
+## About Jackpot
 
-Jackpot currently stores your files:
+Jackpot stores your files:
   * Locally - in the **/backups** directory
-  * Remotely to S3 and/or Google Cloud (optional)
+  * Remotely in S3 and/or Google Cloud (optional)
 
-
-## Prerequisites
-
-This library depends on the **GNU Date** command. This exists on linux
-distributions by default. On Mac OSX, it doesn't - so you'll need to install the
-coreutils package to get it:
+Each backup is compressed into a single `.tar.gz` file - with the name of the file
+representing the timestamp of when the backup was created:
 
 ```
-brew install coreutils
-
-# Now you can run `gdate`
+Example:
+04-20-2017_22-47-51.tar.gz
 ```
 
-### For AWS S3 Backup
-
-To sync to an AWS S3 bucket, you must have the `aws` cli tool installed and
-configured with credentials to access the bucket. [More
-info here](https://aws.amazon.com/cli/).
-
-### For Google Cloud Backup
-
-To sync to a Google Cloud bucket, you must have the `gcloud` and `gsutil` cli
-tools installed and configured with credentials to access the bucket.
-[More info here](https://cloud.google.com/sdk/).
+Jackpot automatically removes daily backups older than 7 days, monthly backups
+older than 7 months, and yearly backups older than 7 years.
 
 ## Getting Started
 
 ```
+git clone https://github.com/clevyr/jackpot-backup.git
+cd jackpot-backup
 cp conf.sh.example conf.sh
 
 # Now edit conf.sh
@@ -107,6 +93,31 @@ regularly:
 # Every day at midnight
 0 0 * * * full/path/to/jackpot.sh
 ```
+
+## Prerequisites
+
+This library depends on the **GNU Date** command. This exists on linux
+distributions by default. On Mac OSX, it doesn't - so you'll need to install the
+coreutils package to get it:
+
+```
+brew install coreutils
+
+# Now you can run `gdate`
+```
+
+### For AWS S3 Backup
+
+To sync to an AWS S3 bucket, you must have the `aws` cli tool installed and
+configured with credentials to access the bucket. [More
+info here](https://aws.amazon.com/cli/).
+
+### For Google Cloud Backup
+
+To sync to a Google Cloud bucket, you must have the `gcloud` and `gsutil` cli
+tools installed and configured with credentials to access the bucket.
+[More info here](https://cloud.google.com/sdk/).
+
 
 MIT Licensed
 
