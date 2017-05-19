@@ -97,7 +97,7 @@ then
   # Sync to S3 if the config is set
   if [ -n "$S3_BUCKET" ]; then
     log "Backing up to the AWS ${S3_BUCKET} S3 bucket..."
-    aws s3 sync ${CURRENT_PATH}/backups/. s3://${S3_BUCKET} --delete --sse
+    ${AWS_PATH} s3 sync ${CURRENT_PATH}/backups/. s3://${S3_BUCKET} --delete --sse
     log-success "Done backing up to AWS S3!"
   else
     log "No configuration set to backup for AWS S3. Skipping..."
@@ -106,7 +106,7 @@ then
   # Sync to Google Cloud if the config is set
   if [ -n "$GOOGLE_CLOUD_BUCKET" ]; then
     log "Backing up to the Google Cloud ${GOOGLE_CLOUD_BUCKET} bucket..."
-    gsutil rsync -d -r ${CURRENT_PATH}/backups/. gs://${GOOGLE_CLOUD_BUCKET}
+    ${GSUTIL_PATH} rsync -d -r ${CURRENT_PATH}/backups/. gs://${GOOGLE_CLOUD_BUCKET}
     log-success "Done backing up to Google Cloud!"
   else
     log "No configuration set to backup for Google Cloud. Skipping..."

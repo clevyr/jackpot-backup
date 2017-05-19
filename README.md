@@ -45,9 +45,11 @@ OPTIONAL:
 
   To Add AWS S3 Syncing, edit:
     S3_BUCKET - the name of the AWS S3 bucket with which you are syncing
+    AWS_PATH  - the full path to the aws command
 
   To Add Google Cloud Syncing, edit:
     GOOGLE_CLOUD_BUCKET - the name of the Google Cloud Storage bucket with which you are syncing
+    GSUTIL_PATH         - the full path to the gsutil command
 ```
 
 ### main_backup
@@ -114,9 +116,9 @@ info here](https://aws.amazon.com/cli/).
 
 ### For Google Cloud Backup
 
-To sync to a Google Cloud bucket, you must have the `gcloud` and `gsutil` cli
+To sync to a Google Cloud bucket, you must have the Google Cloud SDK cli
 tools installed and configured with credentials to access the bucket.
-[More info here](https://cloud.google.com/sdk/).
+[More info here](https://cloud.google.com/sdk/docs/).
 
 
 MIT Licensed
