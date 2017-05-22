@@ -1,5 +1,7 @@
 # Jackpot Backup
 
+![Jackpot Backup Logo](jackpot-backup-logo.png)
+
 Jackpot backups all of your files from the last:
   * 7 days
   * 7 months (one backup each month)
