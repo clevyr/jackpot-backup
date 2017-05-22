@@ -1,6 +1,6 @@
 # Jackpot Backup
 
-![Jackpot Backup Logo](jackpot-backup-logo.png)
+<img src="jackpot-backup-logo.png" alt="Jackpot Backup Logo" width="300" />
 
 Jackpot backups all of your files from the last:
   * 7 days
