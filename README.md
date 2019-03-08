@@ -23,6 +23,10 @@ Example:
 04-20-2017_22-47-51.tar.gz
 ```
 
+The exception to this naming convention is an extra copy of the latest backup,
+which is always stored as `latest.tar.gz` directly in the **/backups** directory
+- for easy access to the latest backup.
+
 Jackpot automatically removes daily backups older than 7 days, monthly backups
 older than 7 months, and yearly backups older than 7 years.
 

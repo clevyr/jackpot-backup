@@ -32,11 +32,16 @@ log-success "Finished running main_backup function!"
 
 ### END UPDATE
 
+log "Creating latest backup..."
+
+# Tar everything in the new backup folder, and store it in backups
+tar -C /tmp/db_backups -zcvf ${CURRENT_PATH}/backups/latest.tar.gz ${NOW}
+log-success "Finished creating latest backup!"
+
 log "Creating daily backup..."
 
-# Tar everything in the new backup folder, and store it in backups/daily
-tar -C /tmp/db_backups -zcvf ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${NOW}
-
+# Copy the latest backup and store it in backups/daily
+cp ${CURRENT_PATH}/backups/latest.tar.gz ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz;
 log-success "Finished creating daily backup!"
 
 # If it's the first backup of the month, store it in backups/monthly
@@ -44,7 +49,7 @@ NUM_CURRENT_MONTHLY_BACKUPS=`find ${CURRENT_PATH}/backups/monthly | grep "${CURR
 if  [ "$NUM_CURRENT_MONTHLY_BACKUPS" -eq "0" ];
 then
   log "No backup has been found for this month. Creating one now..."
-  cp ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${CURRENT_PATH}/backups/monthly/${NOW}.tar.gz;
+  cp ${CURRENT_PATH}/backups/latest.tar.gz ${CURRENT_PATH}/backups/monthly/${NOW}.tar.gz;
   log-success "Finished creating monthly backup!"
 else
   log "There already exists a monthly backup for this month. Skipping..."
@@ -55,7 +60,7 @@ NUM_CURRENT_YEARLY_BACKUPS=`find ${CURRENT_PATH}/backups/yearly | grep "${CURREN
 if  [ "$NUM_CURRENT_YEARLY_BACKUPS" -eq "0" ];
 then
   log "No backup has been found for this year. Creating one now..."
-  cp ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${CURRENT_PATH}/backups/yearly/${NOW}.tar.gz;
+  cp ${CURRENT_PATH}/backups/latest.tar.gz ${CURRENT_PATH}/backups/yearly/${NOW}.tar.gz;
   log-success "Finished creating yearly backup!"
 else
   log "There already exists a yearly backup for this year. Skipping..."
@@ -80,7 +85,7 @@ log-success "Finished deleting outdated backups!"
 # Perform user-defined after_backup() function - if it exists
 if typeset -f after_backup > /dev/null; then
   log "Running after_backup function..."
-  after_backup ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz
+  after_backup ${CURRENT_PATH}/backups/latest.tar.gz
   log-success "Finished running after_backup function!"
 else
   log "No custom after_backup function found. Skipping..."
