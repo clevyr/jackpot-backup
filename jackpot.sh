@@ -13,7 +13,7 @@ trap onerror ERR
 source $CURRENT_PATH/conf.sh
 source $CURRENT_PATH/lib/gnudate.sh
 
-NOW=`gnudate "+%m-%d-%Y_%H-%M-%S"`
+NOW=`gnudate "+%Y-%m-%d_%H-%M-%S"`
 CURRENT_MONTH=`gnudate -d "$D" '+%m'`
 CURRENT_YEAR=`gnudate -d "$D" '+%Y'`
 
@@ -40,7 +40,7 @@ tar -C /tmp/db_backups -zcvf ${CURRENT_PATH}/backups/daily/${NOW}.tar.gz ${NOW}
 log-success "Finished creating daily backup!"
 
 # If it's the first backup of the month, store it in backups/monthly
-NUM_CURRENT_MONTHLY_BACKUPS=`find ${CURRENT_PATH}/backups/monthly | grep "${CURRENT_MONTH}\-[0-9]\{1,2\}\-${CURRENT_YEAR}_.*\.tar\.gz" | wc -l`
+NUM_CURRENT_MONTHLY_BACKUPS=`find ${CURRENT_PATH}/backups/monthly | grep "${CURRENT_YEAR}\-${CURRENT_MONTH}\-[0-9]\{1,2\}_.*\.tar\.gz" | wc -l`
 if  [ "$NUM_CURRENT_MONTHLY_BACKUPS" -eq "0" ];
 then
   log "No backup has been found for this month. Creating one now..."
@@ -51,7 +51,7 @@ else
 fi
 
 # If it's the first backup of the year, store it in backups/yearly
-NUM_CURRENT_YEARLY_BACKUPS=`find ${CURRENT_PATH}/backups/yearly | grep "[0-9]\{1,2\}\-[0-9]\{1,2\}\-${CURRENT_YEAR}_.*\.tar\.gz" | wc -l`
+NUM_CURRENT_YEARLY_BACKUPS=`find ${CURRENT_PATH}/backups/yearly | grep "${CURRENT_YEAR}\-[0-9]\{1,2\}\-[0-9]\{1,2\}_.*\.tar\.gz" | wc -l`
 if  [ "$NUM_CURRENT_YEARLY_BACKUPS" -eq "0" ];
 then
   log "No backup has been found for this year. Creating one now..."
